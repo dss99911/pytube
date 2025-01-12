@@ -244,7 +244,12 @@ class YouTube:
         innertube = InnerTube(use_oauth=self.use_oauth, allow_cache=self.allow_oauth_cache)
 
         innertube_response = innertube.player(self.video_id)
-        self._vid_info = innertube_response
+
+        status = innertube_response.get('playabilityStatus', {}).get('status')
+        self._vid_info = innertube_response \
+            if status is not None and status != 'LOGIN_REQUIRED' \
+            else extract.initial_player_response(self.watch_html)
+
         return self._vid_info
 
     def bypass_age_gate(self):
@@ -474,6 +479,6 @@ class YouTube:
             The video id of the YouTube video.
 
         :rtype: :class:`YouTube <YouTube>`
-        
+
         """
         return YouTube(f"https://www.youtube.com/watch?v={video_id}")
