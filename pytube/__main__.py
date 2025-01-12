@@ -245,9 +245,8 @@ class YouTube:
 
         innertube_response = innertube.player(self.video_id)
 
-        status = innertube_response.get('playabilityStatus', {}).get('status')
         self._vid_info = innertube_response \
-            if status is not None and status != 'LOGIN_REQUIRED' \
+            if innertube_response.get('playabilityStatus', {}).get('status') == 'OK' \
             else extract.initial_player_response(self.watch_html)
 
         return self._vid_info
