@@ -4,7 +4,7 @@ import time
 import json
 import xml.etree.ElementTree as ElementTree
 from html import unescape
-from typing import Dict, Optional
+from typing import Dict, Optional, List
 
 from pytube import request
 from pytube.helpers import safe_filename, target_directory
@@ -51,6 +51,12 @@ class Caption:
         parsed = json.loads(text)
         assert parsed['wireMagic'] == 'pb3', 'Unexpected captions format'
         return parsed
+
+    @property
+    def captions(self) -> List[dict]:
+        """dict contains start, end, text """
+        return self.xml_caption_to_dict(self.xml_captions)
+
 
     def generate_srt_captions(self) -> str:
         """Generate "SubRip Subtitle" captions.
@@ -101,6 +107,33 @@ class Caption:
             )
             segments.append(line)
         return "\n".join(segments).strip()
+
+    def xml_caption_to_dict(self, xml_captions: str) -> List[dict]:
+        """Convert xml caption tracks to dict.
+
+        :param str xml_captions:
+            XML formatted caption tracks.
+        """
+        segments = []
+        root = ElementTree.fromstring(xml_captions)
+        for i, child in enumerate(list(root)):
+            text = child.text or ""
+            caption = unescape(text.replace("\n", " ").replace("  ", " "),)
+            try:
+                duration = float(child.attrib["dur"])
+            except KeyError:
+                duration = 0.0
+            start = float(child.attrib["start"])
+            end = start + duration
+
+            line = {
+                "start": start,
+                "end": end,
+                "text": caption
+            }
+            segments.append(line)
+        return segments
+
 
     def download(
         self,
