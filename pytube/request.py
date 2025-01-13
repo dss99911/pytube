@@ -22,7 +22,7 @@ def _execute_request(
     method=None,
     headers=None,
     data=None,
-    timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+    timeout=60,
     stream=False,
 ):
     logger.debug(f"url: {url}")
