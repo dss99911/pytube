@@ -48,7 +48,7 @@ def _execute_request(
     return response
 
 
-def get(url, extra_headers=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+def get(url, extra_headers=None, timeout=60):
     """Send an http GET request.
 
     :param str url:
@@ -65,7 +65,7 @@ def get(url, extra_headers=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
     return response.text
 
 
-def post(url, extra_headers=None, data=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
+def post(url, extra_headers=None, data=None, timeout=60):
     """Send an http POST request.
 
     :param str url:
@@ -143,7 +143,7 @@ def seq_stream(
 
 def stream(
     url,
-    timeout=socket._GLOBAL_DEFAULT_TIMEOUT,
+    timeout=None,
     max_retries=0,
     chunk_size=8192
 ):
