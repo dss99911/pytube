@@ -19,7 +19,7 @@ default_range_size = 9437184  # 9MB
 
 def _execute_request(
     url,
-    method=None,
+    method="GET",
     headers=None,
     data=None,
     timeout=60,
