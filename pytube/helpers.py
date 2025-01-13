@@ -8,11 +8,12 @@ import re
 import warnings
 from typing import Any, Callable, Dict, List, Optional, TypeVar
 from urllib import request
+from urllib.request import urlopen
 
 from pytube.exceptions import RegexMatchError
 
 logger = logging.getLogger(__name__)
-
+opener = urlopen
 
 class DeferredGeneratorList:
     """A wrapper class for deferring list generation.
@@ -256,9 +257,9 @@ def target_directory(output_path: Optional[str] = None) -> str:
 
 
 def install_proxy(proxy_handler: Dict[str, str]) -> None:
+    global opener
     proxy_support = request.ProxyHandler(proxy_handler)
-    opener = request.build_opener(proxy_support)
-    request.install_opener(opener)
+    opener = request.build_opener(proxy_support).open
 
 
 def uniqueify(duped_list: List) -> List:

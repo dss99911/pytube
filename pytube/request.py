@@ -10,7 +10,7 @@ from urllib.error import URLError
 from urllib.request import Request, urlopen
 
 from pytube.exceptions import RegexMatchError, MaxRetriesExceeded
-from pytube.helpers import regex_search
+from pytube.helpers import regex_search, opener
 
 logger = logging.getLogger(__name__)
 default_range_size = 9437184  # 9MB
@@ -34,7 +34,7 @@ def _execute_request(
         request = Request(url, headers=base_headers, method=method, data=data)
     else:
         raise ValueError("Invalid URL")
-    return urlopen(request, timeout=timeout)  # nosec
+    return opener(request, timeout=timeout)  # nosec
 
 
 def get(url, extra_headers=None, timeout=socket._GLOBAL_DEFAULT_TIMEOUT):
