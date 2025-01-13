@@ -296,7 +296,7 @@ class InnerTube:
             },
             data=data
         )
-        response_data = json.loads(response.read())
+        response_data = json.loads(response.content)
 
         self.access_token = response_data['access_token']
         self.expires = start_time + response_data['expires_in']
@@ -318,7 +318,7 @@ class InnerTube:
             },
             data=data
         )
-        response_data = json.loads(response.read())
+        response_data = json.loads(response.content)
         verification_url = response_data['verification_url']
         user_code = response_data['user_code']
         print(f'Please open {verification_url} and input code {user_code}')
@@ -338,7 +338,7 @@ class InnerTube:
             },
             data=data
         )
-        response_data = json.loads(response.read())
+        response_data = json.loads(response.content)
 
         self.access_token = response_data['access_token']
         self.refresh_token = response_data['refresh_token']
@@ -393,7 +393,7 @@ class InnerTube:
             headers=headers,
             data=data
         )
-        return json.loads(response.read())
+        return json.loads(response.content)
 
     def browse(self):
         """Make a request to the browse endpoint.
