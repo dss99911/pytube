@@ -241,13 +241,11 @@ class YouTube:
         if self._vid_info:
             return self._vid_info
 
-        innertube = InnerTube(use_oauth=self.use_oauth, allow_cache=self.allow_oauth_cache)
+        # innertube = InnerTube(use_oauth=self.use_oauth, allow_cache=self.allow_oauth_cache)
 
-        innertube_response = innertube.player(self.video_id)
+        # innertube_response = innertube.player(self.video_id)
 
-        self._vid_info = innertube_response \
-            if innertube_response.get('playabilityStatus', {}).get('status') == 'OK' \
-            else extract.initial_player_response(self.watch_html)
+        self._vid_info = extract.initial_player_response(self.watch_html)
 
         return self._vid_info
 
