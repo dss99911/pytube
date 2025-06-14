@@ -41,7 +41,7 @@ def _execute_request(
 
     # HTTP 요청
     response = requests.request(method=method, url=url, headers=base_headers, data=data,
-                                timeout=timeout, stream=stream, proxies=helper.proxies, verify=False)
+                                timeout=timeout, stream=stream, proxies=helper.proxies)
 
     # 응답 반환
     response.raise_for_status()  # 요청 실패 시 예외 발생
